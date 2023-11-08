@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ZakatController;
+use App\Http\Controllers\DKMController;
+use App\Http\Controllers\BMMController;
+use App\Http\Controllers\KKWController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +18,57 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard-general-dashboard');
+Route::redirect('/', '/login');
+
+Route::get('/login',function () {
+    return view('login.login');
+    
+})->name('login');
+
+// Auth::routes();
+
+// Route::get('/admin', [AdminController::class, 'index'])->middleware('auth', 'divisi:admin')->name('dashboard-');
+// Route::get('/dkm', [DKMController::class, 'index'])->middleware('auth', 'divisi:dkm')->name('dashboard-dkm');
+// Route::get('/kkw', [KKWController::class, 'index'])->middleware('auth', 'divisi:kkw')->name('dashboard-kkw');
+// Route::get('/zakat', [ZakatController::class, 'index'])->middleware('auth', 'divisi:zakat')->name('dashboard-zakat');
+// Route::get('/bmm', [BMMController::class, 'index'])->middleware('auth', 'divisi:bmm')->name('dashboard-bbm');
+
+
+Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout');
+
+Route::middleware(['auth', 'divisi:BMM'])->group(function () {
+    Route::get('/dashboard-bmm', [BMMController::class, 'index'])->name("dashboard-bmm");
+    
+    
+
+});
+
+Route::middleware(['auth', 'divisi:DKM'])->group(function () {
+    Route::get('/dashboard-dkm', [DKMController::class, 'index'])->name("dashboard-dkm");
+
+    
+
+});
+
+Route::middleware(['auth', 'divisi:Zakat'])->group(function () {
+    Route::get('/dashboard-zakat', [ZakatController::class, 'index'])->name("dashboard-zakat");
+    Route::get('/stock-beras', [ZakatController::class, 'stock'])->name("stock-beras");
+    Route::post('/stock-beras',[ZakatController::class,'insert'])->name('add_stock');
+});
+
+Route::middleware(['auth', 'divisi:KKW'])->group(function () {
+    Route::get('/dashboard-kkw', [KKWController::class, 'index'])->name("dashboard-kkw");
+
+    
+
+});
+
+// Route::group(['middleware' => ['auth', 'divisi:KKW']], function () {
+//     Route::get('/dashboard-kkw', function (){
+//         return view('kkw.dashboard-kkw',['type_menu'=>'dashboard']);    
+//     })->name('dasboard-kkw');
+// });
 
 // Dashboard
 Route::get('/dashboard-general-dashboard', function () {
