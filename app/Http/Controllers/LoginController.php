@@ -45,8 +45,11 @@ class LoginController extends Controller
         ]);
         // dd(Auth::Attempt($data));
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            $user = auth()->user();
+            session(['user_name' => $user->name]);
             if (auth()->user()->divisi == 'KKW') {
                 // dd(user()->divisi);
+                
                 return redirect()->route('dashboard-kkw');   
              }
              else if (auth()->user()->divisi == 'DKM') {
@@ -58,8 +61,7 @@ class LoginController extends Controller
                  return redirect()->route('dashboard-bmm');   
               }
              else if (auth()->user()->divisi == 'Zakat') {
-                //  return redirect('dashboard-zakat');
-                 return redirect()->route('dashboard-zakat');   
+                return redirect()->route('dashboard-zakat');   
              }else{
                 return redirect()->back();
              }  

@@ -13,20 +13,20 @@ function refresh(append) {
     redirect: 'follow'
   };
     
-  fetch("http://127.0.0.1:8000/api/stock", requestOptions)
+  fetch("http://127.0.0.1:8000/api/transaksi", requestOptions)
     .then(response => response.text())
     .then(result => {
 
       dataAPI = JSON.parse(result)
       console.log(dataAPI);
       if (datatable != 0) {
-        $('#table-stock-beras').dataTable().fnClearTable();
-        $('#table-stock-beras').dataTable().fnAddData(dataAPI.stock);
+        $('#table-transaksi-zakat').dataTable().fnClearTable();
+        $('#table-transaksi-zakat').dataTable().fnAddData(dataAPI.akad);
       } else {
         datatable ++      
 
-        $("#table-stock-beras").DataTable({
-          data: dataAPI.stock,
+        $("#table-transaksi-zakat").DataTable({
+          data: dataAPI.akad,
           responsive: true,
           pageLength: 10,
           autoWidth: false,
@@ -42,31 +42,51 @@ function refresh(append) {
                 }
             },
             {
-                data: "nama",
+                data: "id_akad",
+            },
+            {
+                data: "nama_muzzaki",
+                // orderable: false,
             },
             {
                 data: "harga_beras",
                 // orderable: false,
             },
             {
-                data: "stock",
-                // orderable: false,
-            },
-            {
-                data: "tanggal_masuk",
+                data: "jumlah_keluarga",
                 
             },
             {
-              data: 'id',
-              render: function (data, type, full, meta) {
-                rowww = meta.row
-                idpanjang = data
-                editbtn = '<button class="btn btn-icon btn-warning m-1" id="editBtn" onclick="editBtn('+ rowww +')" ><i class="fas fa-edit"></i> </button>';
-                deletebtn = '<button class="btn btn-icon btn-danger m-1" id="deleteBtn" id="'+data+'" onclick="prodidel('+ rowww +')" ><i class="fas fa-trash"></i> </button>';
-                return '<a href=#prodi-prestasi-edit>'+editbtn +deletebtn+'</a>' ;
-              },
-              orderable: false,
-            }
+              data: "jumlah_literan",
+              
+            },
+            {
+              data: "jumlah_uang",
+              
+            },
+            {
+              data: "jenis_zakat",
+              
+            },
+            {
+              data: "jenis_akad",
+              
+            },
+            {
+              data: "tanggal_akad",
+              
+            },
+            // {
+            //   data: 'id_akad',
+            //   render: function (data, type, full, meta) {
+            //     rowww = meta.row
+            //     idpanjang = data
+            //     editbtn = '<button class="btn btn-icon btn-warning m-1" id="editBtn" onclick="editBtn('+ rowww +')" ><i class="fas fa-edit"></i> </button>';
+            //     deletebtn = '<button class="btn btn-icon btn-danger m-1" id="deleteBtn" id="'+data+'" onclick="prodidel('+ rowww +')" ><i class="fas fa-trash"></i> </button>';
+            //     return '<a href=#prodi-prestasi-edit>'+editbtn +deletebtn+'</a>' ;
+            //   },
+            //   orderable: false,
+            // }
           ],
         });
       }

@@ -1,6 +1,6 @@
 @extends('layouts-zakat.app')
 
-@section('title', 'Stock Beras')
+@section('title', 'Transaksi Beras')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -21,7 +21,7 @@
 <div class="main-content" id="main-content" url="#">
     <section class="section">
         <div class="section-header">
-            <h1>Data Stock Beras Masjid Al-Hidayah</h1>
+            <h1>Data Transaksi Zakat Masjid Al-Hidayah</h1>
         </div>
 
 
@@ -69,16 +69,21 @@
 
                             <br>
                             <div class="">
-                                <table class="table-hover table-md table display nowrap" id="table-stock-beras" style="width: 100%" url="
+                                <table class="table-hover table-md table display nowrap" id="table-transaksi-zakat" style="width: 100%" url="
                                 ">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nama</th>
+                                            <th scope="col">Id Akad</th>
+                                            <th scope="col">Nama Muzzaki</th>
                                             <th scope="col">Harga Beras</th>
-                                            <th scope="col">Stock</th>
-                                            <th scope="col">Tanggal Masuk</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">Jumlah Jiwa</th>
+                                            <th scope="col">Jumlah Literan</th>
+                                            <th scope="col">Jumlah Uang</th>
+                                            <th scope="col">Jenis Zakat</th>
+                                            <th scope="col">Jenis Akad</th>
+                                            <th scope="col">Tanggal Akad</th>
+                                            <!-- <th scope="col">Action</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,8 +93,9 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <!-- <input type="submit" class="btn btn-primary" /> -->
-                            <a href="{{ route('export.excelStock') }}" class="btn btn-primary">Print Laporan</a>
+                            <!-- <input type="submit" class="btn btn-primary" value="Print Laporan"/> -->
+                            <!-- <input type="submit" class="btn btn-primary" id="exportExcelBtn" value="Print Laporan"/> -->
+                            <a href="{{ route('export.excel') }}" class="btn btn-primary">Print Laporan</a>
                         </div>
                     </div>
                 </div>
@@ -138,8 +144,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input class="btn btn-success" type="button" onclick="submit()" value="Submit">
                                    <!-- <input type="submit" class="btn btn-primary btn-shadow" value="Tambah"> -->
-                                    <!-- <input class="btn btn-danger ml-2"type="button" value="Close" onclick="tutup()"> -->
-
+                                    <input class="btn btn-danger ml-2"type="button" value="Close" onclick="tutup()">
                                 </div>
                             </div>
                         </div>
@@ -149,28 +154,68 @@
         </div>
     </section>
 
-    <form class="modal-part" id="modal-add-stock" action="{{route('add_stock')}}" method="post">
+    <form class="modal-part" id="modal-add-stock" action="{{route('add-transaksi-zakat')}}" method="post">
         @csrf
         <p>Tambahkan Data <code>Stock Beras</code> Terbaru</p>
         <div class="form-group">
-            <label>Id Beras</label> 
-            <input type="number" class="form-control" placeholder="Id Beras" name="id" required>
+            <label>Id Akad</label> 
+            <input type="text" class="form-control" placeholder="Id Akad" name="id_akad" required>
         </div>
         <div class="form-group">
-            <label>Nama</label>
-            <input type="text" class="form-control" placeholder="Keterangan Stock Beras" name="nama" required>
+            <label>Nama Muzzaki</label>
+            <input type="text" class="form-control" placeholder="Nama Muzzaki" name="nama" required>
         </div>
-        <div class="form-group">
-            <label>Harga Beras</label>
-            <input type="number" class="form-control" placeholder="Harga Beras" name="harga_beras" required>
+        <div class="form-group" hidden >
+            <label>Nama Amil</label>
+            <input type="text" class="form-control" placeholder="Nama Amil" name="nama_amil" required value="{{ session('user_name') }}" readonly>
         </div>
-        <div class="form-group">
-            <label>Stock</label>
-            <input type="number" class="form-control" placeholder="Stock Beras (Isi 66 Jika 50KG Beras)" name="stock" required>
+        <div class="form-group" >
+            <label>Jenis Zakat</label>
+            <select class="form-control" name="jenis_zakat" required>
+                <option value="" selected disabled>Pilih Jenis Zakat</option>
+                <option value="Fidyah">Fidyah</option>
+                <option value="Fitrah">Fitrah</option>
+            </select>
+        </div>
+        <div class="form-group" hidden id="jenis_akad">
+            <label>Jenis Akad</label>
+            <select class="form-control" name="jenis_akad" required>
+                <option value="" selected disabled>Pilih Jenis Akad</option>
+                <option value="Tunai">Tunai</option>
+                
+            </select>
+        </div>
+        <div class="form-group" hidden id="harga_berass">
+        <label>Harga Beras</label>
+            <select class="form-control" name="harga_beras" >
+                <option value="" selected disabled>Pilih Harga Beras</option>
+                @foreach($stock_beras as $item)
+                    <option value="{{ $item->harga_beras }}">{{ $item->harga_beras }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group" hidden id="jumlah_sembako">
+            <label>Jumlah Sembako</label>
+            <input type="text" class="form-control" placeholder="Jumlah Sembako yang dimakan" name="jumlah_sembako" >
+        </div>
+        <div class="form-group" hidden id="jumlah_hari">
+            <label>Jumlah Hari</label>
+            <input type="text" class="form-control" placeholder="Jumlah hari yang dibayarkan fidyah" name="jumlah_hari" >
+        </div>
+        <div class="form-group" hidden id="jumlah_keluarga">
+            <label>Jumlah Keluarga</label>
+            <input type="text" class="form-control" placeholder="Jumlah Kepala yang dizakatkan / difidyahkan" name="jumlah_keluarga" >
+        </div>
+        <div class="form-group"  id="jumlah_literan">
+            <label>Jumlah Literan</label>
+            <input type="text" class="form-control" placeholder="Jumlah Literan" name="jumlah_literan">
+        </div>
+        <div class="form-group" hidden id="jumlah_uang">
+            <label>Jumlah Uang</label>
+            <input type="text" class="form-control" placeholder="Jumlah Uang yang dibayarkan" name="jumlah_uang" >
         </div>
         <div class="d-flex justify-content-end">
             <input type="submit" class="btn btn-primary btn-shadow" value="Tambah">
-        </div>
     </form>
 
     
@@ -187,12 +232,13 @@
     <script src="{{ asset('js/stisla.js') }}"></script>
     <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
 
     <!-- Page Specific JS File -->
     <script src="../../js/table.js"></script>
     <script src="../../js/style.js"></script>
-    <script src="../../js/stock.js"></script>
-    <script src="../../js/stock-beras.js"></script>
+    <script src="../../js/transaksi.js"></script>
+    <script src="../../js/transaksi-zakat.js"></script>
     <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
 
     <script src="{{ asset('js/page/index-0.js') }}"></script>

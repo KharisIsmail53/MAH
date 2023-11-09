@@ -55,6 +55,13 @@ Route::middleware(['auth', 'divisi:Zakat'])->group(function () {
     Route::get('/dashboard-zakat', [ZakatController::class, 'index'])->name("dashboard-zakat");
     Route::get('/stock-beras', [ZakatController::class, 'stock'])->name("stock-beras");
     Route::post('/stock-beras',[ZakatController::class,'insert'])->name('add_stock');
+    Route::post('/update-stock',[ZakatController::class,'edit'])->name('edit_stock');
+    Route::get('/transaksi-zakat', [ZakatController::class, 'transaksi'])->name("transaksi-zakat");
+    Route::post('/transaksi-zakat', [ZakatController::class, 'insertAkadZakat'])->name("add-transaksi-zakat");
+    Route::get('/export-excel', [ZakatController::class, 'exportExcel'])->name('export.excel');
+    Route::get('/export-excel-stock', [ZakatController::class, 'exportExcelStock'])->name('export.excelStock');
+
+
 });
 
 Route::middleware(['auth', 'divisi:KKW'])->group(function () {
