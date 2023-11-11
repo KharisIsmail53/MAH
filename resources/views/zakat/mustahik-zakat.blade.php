@@ -1,6 +1,6 @@
 @extends('layouts-zakat.app')
 
-@section('title', 'Stock Beras')
+@section('title', 'Amil Zakat')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -21,7 +21,7 @@
 <div class="main-content" id="main-content" url="#">
     <section class="section">
         <div class="section-header">
-            <h1>Data Stock Beras Masjid Al-Hidayah</h1>
+            <h1>Data Mustahik Masjid Al-Hidayah</h1>
         </div>
 
 
@@ -69,15 +69,15 @@
 
                             <br>
                             <div class="">
-                                <table class="table-hover table-md table display nowrap" id="table-stock-beras" style="width: 100%" url="
+                                <table class="table-hover table-md table display nowrap" id="table-amil-zakat" style="width: 100%" url="
                                 ">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Harga Beras</th>
-                                            <th scope="col">Stock</th>
-                                            <th scope="col">Tanggal Masuk</th>
+                                            <th scope="col">Nama Amil</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Jabatan</th>
+                                            <th scope="col">Divisi</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -97,43 +97,41 @@
         </div>
     </section>
 
-    <section id="stock-edit" hidden>
+    <section id="amil-edit" hidden>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="my-2">Stock Beras Al-Hidayah</h4>
+                        <h4 class="my-2">Amil Zakat Al-Hidayah</h4>
                     </div>
                     <div id="edit-prodi-pres" url="#">
                     <!-- <form class="modal-part" id="modal-edit-stock" action="{{route('edit_stock')}}" method="post"> -->
                     @csrf
                         <div class="card-body">
-                            <div class="form-group row mb-4" hidden>
-                                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">#</label>
-                                <div class="col-sm-12 col-md-7">
-                                    <input type="text" id="id" name="id" class="form-control"readonly/>
-                                    <!-- <input type="text" id="id_obj" name="id_obj" class="form-control" hidden/> -->
+                            <div class="form-group" >
+                                <label>Id Amil</label> 
+                                <input type="text" class="form-control" placeholder="Id Amil" name="id" required value="" id="id" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input type="text" class="form-control" placeholder="Nama Amil" name="name" id="name"required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" placeholder="Email Amil" name="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" placeholder="Password" name="password" id="passwordInput" id="password" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-eye" id="togglePassword"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama</label>
-                                <div class="col-sm-12 col-md-7">
-                                    <input type="text" id="nama" name="nama" class="form-control" required/>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Harga Beras</label>
-                                <div class="col-sm-12 col-md-7">
-                                    <input type="text" id="harga_beras" name="harga_beras" class="form-control" required/>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Stock</label>
-                                <div class="col-sm-12 col-md-7">
-                                    <input type="text" id="stock" name="stock" class="form-control" placeholder="Stock Beras" required/>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-4">
+                            <div class="form-group">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                 <div class="col-sm-12 col-md-7">
                                     <input class="btn btn-success" type="button" onclick="submit()" value="Submit">
@@ -149,24 +147,24 @@
         </div>
     </section>
 
-    <form class="modal-part" id="modal-add-stock" action="{{route('add_stock')}}" method="post">
+    <form class="modal-part" id="modal-add-mustahik" action="{{route('add_amil')}}" method="post">
         @csrf
-        <p>Tambahkan Data <code>Stock Beras</code> Terbaru</p>
+        <p>Tambahkan Data <code>Mustahik Zakat</code> Terbaru</p>
         <div class="form-group" hidden>
-            <label>Id Beras</label> 
-            <input type="number" class="form-control" placeholder="Id Beras" name="id" required readonly value="{{ $newId }}">
+            <label>Id Mustahik</label> 
+            <input type="text" class="form-control" placeholder="ID Mustahik" name="id_mustahik" required value="{{$newIdMustahik}}" readonly>
         </div>
         <div class="form-group">
             <label>Nama</label>
-            <input type="text" class="form-control" placeholder="Keterangan Stock Beras" name="nama" required>
+            <input type="text" class="form-control" placeholder="Nama Amil" name="nama" required>
         </div>
         <div class="form-group">
-            <label>Harga Beras</label>
-            <input type="number" class="form-control" placeholder="Harga Beras" name="harga_beras" required>
+            <label>RT</label>
+            <input type="text" class="form-control" placeholder="Email Amil" name="rt" required>
         </div>
         <div class="form-group">
-            <label>Stock</label>
-            <input type="number" class="form-control" placeholder="Stock Beras (Isi 66 Jika 50KG Beras)" name="stock" required>
+            <label>RW</label>
+            <input type="text" class="form-control" placeholder="Email Amil" name="rw" required>
         </div>
         <div class="d-flex justify-content-end">
             <input type="submit" class="btn btn-primary btn-shadow" value="Tambah">
@@ -191,8 +189,8 @@
     <!-- Page Specific JS File -->
     <script src="../../js/table.js"></script>
     <script src="../../js/style.js"></script>
-    <script src="../../js/stock.js"></script>
-    <script src="../../js/stock-beras.js"></script>
+    <script src="../../js/mustahik.js"></script>
+    <script src="../../js/mustahik-zakat.js"></script>
     <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
 
     <script src="{{ asset('js/page/index-0.js') }}"></script>

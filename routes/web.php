@@ -60,6 +60,13 @@ Route::middleware(['auth', 'divisi:Zakat'])->group(function () {
     Route::post('/transaksi-zakat', [ZakatController::class, 'insertAkadZakat'])->name("add-transaksi-zakat");
     Route::get('/export-excel', [ZakatController::class, 'exportExcel'])->name('export.excel');
     Route::get('/export-excel-stock', [ZakatController::class, 'exportExcelStock'])->name('export.excelStock');
+    Route::get('/amil-zakat', [ZakatController::class, 'amil'])->name("amil-zakat");
+    Route::post('/amil-zakat',[ZakatController::class,'addAmil'])->name('add_amil');
+    Route::get('/rekap-zakat', [ZakatController::class, 'rekap'])->name("rekap-zakat");
+    Route::get('/export-rekap-excel', [ZakatController::class, 'exportExcelRekap'])->name('export.excel.rekap');
+    Route::get('/download-rekap-excel', [ZakatController::class, 'downloadRekapExcel'])->name('download.rekap.excel');
+    Route::get('/mustahik-zakat', [ZakatController::class, 'mustahik'])->name("mustahik-zakat");
+    Route::post('/mustahik-zakat',[ZakatController::class,'addMustahik'])->name('add_mustahik');
 
 
 });

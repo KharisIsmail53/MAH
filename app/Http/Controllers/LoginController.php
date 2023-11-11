@@ -47,6 +47,8 @@ class LoginController extends Controller
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = auth()->user();
             session(['user_name' => $user->name]);
+            session(['divisi' => $user->divisi]);
+            // dd(session('divisi'));
             if (auth()->user()->divisi == 'KKW') {
                 // dd(user()->divisi);
                 

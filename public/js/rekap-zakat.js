@@ -6,14 +6,14 @@ refresh('');
 function refresh(append) {
   var myHeaders = new Headers();
   myHeaders.append("Cookie", "laravel_session=eyJpdiI6IlRyYUovb3F1UGRJN1FLdlowOWVhOXc9PSIsInZhbHVlIjoiaE9CaFRLV3A3Rk0yclpMd0p4eFRvc3pIMGU5Yk5nS2laVTJ6ejcwNS9UemdUQUg4ZkVFTkYwSm9pejNoanV3cFY5am5kR2ZOWEp4NktOQm5FVFB3TEFIMy83Q2xnc1ErdTFPMXUwdG5lKzJnSGRuYzFtMnNSNFVxRlJCZlg5MzMiLCJtYWMiOiJkMDJmMzkzNDkzNTk2Y2FjNDUyZmU3ODRkM2YxN2RhZjhhYzk3MjAxZTAzODBjM2ZkNWE5M2JlNjQ0ZWZhNzI1IiwidGFnIjoiIn0%3D");
-
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
     redirect: 'follow'
   };
+  // var selectedYear = document.getElementById("tahunDropdown").value;
     
-  fetch("http://127.0.0.1:8000/api/transaksi", requestOptions)
+  fetch("http://127.0.0.1:8000/api/rekap-zakat", requestOptions)
     .then(response => response.text())
     .then(result => {
 
@@ -21,12 +21,12 @@ function refresh(append) {
       console.log(dataAPI);
       if (datatable != 0) {
         $('#table-transaksi-zakat').dataTable().fnClearTable();
-        $('#table-transaksi-zakat').dataTable().fnAddData(dataAPI.akad);
+        $('#table-transaksi-zakat').dataTable().fnAddData(dataAPI.rekapZakat);
       } else {
-        datatable ++      
-
-        $("#table-transaksi-zakat").DataTable({
-          data: dataAPI.akad,
+        datatable ++ 
+        // var counter = 0;
+        var table = $("#table-transaksi-zakat").DataTable({
+          data: dataAPI.rekapZakat,
           responsive: true,
           pageLength: 10,
           autoWidth: false,
@@ -38,8 +38,9 @@ function refresh(append) {
             {
                 data: null,
                 render: function (data, type, full, meta) {
-                    return meta.row + 1;
-                }
+
+                  return meta.row + 1;
+              }
             },
             {
                 data: "nama_muzzaki",
@@ -73,6 +74,10 @@ function refresh(append) {
               data: "tanggal_akad",
               
             },
+            {
+              data: "tahun",
+              
+            },
             // {
             //   data: 'id_akad',
             //   render: function (data, type, full, meta) {
@@ -87,6 +92,15 @@ function refresh(append) {
           ],
         });
       }
+      $("#tahunDropdown").on("change", function() {
+        var selectedValue = $(this).val();
+
+        if (selectedValue === "") {
+            table.column(9).search("").draw();
+        } else {
+            table.column(9).search(selectedValue).draw();
+        }
+    });
     })
     .catch(error => console.log('error', error));
   }
@@ -219,3 +233,24 @@ function refresh(append) {
       })
       .catch(error => console.log('error', error));
   }
+
+  $('#tahunDropdown').on('change', function () {
+    var selectedYear = $(this).val(); // Mendapatkan nilai yang dipilih
+
+    // Mengirim nilai ke controller menggunakan AJAX
+    $.ajax({
+        type: 'POST', // Atur metode HTTP yang sesuai
+        url: '/rekap-zakat', // Ganti dengan URL controller Anda
+        data: {
+            selectedYear: selectedYear
+        },
+        success: function (response) {
+            // Handle respons dari controller jika diperlukan
+            console.log(response);
+        },
+        error: function (error) {
+            // Handle kesalahan jika diperlukan
+            console.error(error);
+        }
+    });
+});

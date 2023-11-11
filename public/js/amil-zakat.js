@@ -13,20 +13,20 @@ function refresh(append) {
     redirect: 'follow'
   };
     
-  fetch("http://127.0.0.1:8000/api/transaksi", requestOptions)
+  fetch("http://127.0.0.1:8000/api/amil", requestOptions)
     .then(response => response.text())
     .then(result => {
 
       dataAPI = JSON.parse(result)
       console.log(dataAPI);
       if (datatable != 0) {
-        $('#table-transaksi-zakat').dataTable().fnClearTable();
-        $('#table-transaksi-zakat').dataTable().fnAddData(dataAPI.akad);
+        $('#table-amil-zakat').dataTable().fnClearTable();
+        $('#table-amil-zakat').dataTable().fnAddData(dataAPI.users);
       } else {
         datatable ++      
 
-        $("#table-transaksi-zakat").DataTable({
-          data: dataAPI.akad,
+        $("#table-amil-zakat").DataTable({
+          data: dataAPI.users,
           responsive: true,
           pageLength: 10,
           autoWidth: false,
@@ -42,48 +42,31 @@ function refresh(append) {
                 }
             },
             {
-                data: "nama_muzzaki",
+                data: "name",
+            },
+            {
+                data: "email",
                 // orderable: false,
             },
             {
-                data: "harga_beras",
+                data: "role",
                 // orderable: false,
             },
             {
-                data: "jumlah_keluarga",
-                
+                data: "divisi",
+                // orderable: false,
             },
             {
-              data: "jumlah_literan",
-              
-            },
-            {
-              data: "jumlah_uang",
-              
-            },
-            {
-              data: "jenis_zakat",
-              
-            },
-            {
-              data: "jenis_akad",
-              
-            },
-            {
-              data: "tanggal_akad",
-              
-            },
-            // {
-            //   data: 'id_akad',
-            //   render: function (data, type, full, meta) {
-            //     rowww = meta.row
-            //     idpanjang = data
-            //     editbtn = '<button class="btn btn-icon btn-warning m-1" id="editBtn" onclick="editBtn('+ rowww +')" ><i class="fas fa-edit"></i> </button>';
-            //     deletebtn = '<button class="btn btn-icon btn-danger m-1" id="deleteBtn" id="'+data+'" onclick="prodidel('+ rowww +')" ><i class="fas fa-trash"></i> </button>';
-            //     return '<a href=#prodi-prestasi-edit>'+editbtn +deletebtn+'</a>' ;
-            //   },
-            //   orderable: false,
-            // }
+              data: 'id',
+              render: function (data, type, full, meta) {
+                rowww = meta.row
+                idpanjang = data
+                editbtn = '<button class="btn btn-icon btn-warning m-1" id="editBtn" onclick="editBtn('+ rowww +')" ><i class="fas fa-edit"></i> </button>';
+                deletebtn = '<button class="btn btn-icon btn-danger m-1" id="deleteBtn" id="'+data+'" onclick="prodidel('+ rowww +')" ><i class="fas fa-trash"></i> </button>';
+                return '<a href=#prodi-prestasi-edit>'+editbtn +deletebtn+'</a>' ;
+              },
+              orderable: false,
+            }
           ],
         });
       }
@@ -93,14 +76,14 @@ function refresh(append) {
 
 
   function tutup(){
-    document.getElementById('stock-edit').setAttribute('hidden',true);
+    document.getElementById('amil-edit').setAttribute('hidden',true);
     sessionStorage.clear();
   }
 
   function prodidel(id){
     // console.log(urldel);
     console.log(id);
-    var id = dataAPI.stock[id]
+    var id = dataAPI.users[id]
     // var urldel = document.getElementById("table-prodi-pres").getAttribute('url');
     var formdata = new FormData();
     formdata.append("id", id.id);
@@ -115,7 +98,7 @@ function refresh(append) {
     };
 
 
-    fetch("http://127.0.0.1:8000/api/delete-stock-beras", requestOptions)
+    fetch("http://127.0.0.1:8000/api/delete-amil", requestOptions)
     .then(response => response.text())
     .then(result => {
       // console.log(id)
@@ -153,13 +136,12 @@ function refresh(append) {
   }
 
   function editBtn(id) {
-    var idbaru = dataAPI.stock[id]; // Mengganti 'prodi' menjadi 'stock'
-    document.getElementById('stock-edit').removeAttribute('hidden');
-    document.getElementById('stock-edit').focus();
+    var idbaru = dataAPI.users[id]; // Mengganti 'prodi' menjadi 'stock'
+    document.getElementById('amil-edit').removeAttribute('hidden');
+    document.getElementById('amil-edit').focus();
     document.getElementById('id').value = idbaru.id;
-    document.getElementById('nama').value = idbaru.nama;
-    document.getElementById('harga_beras').value = idbaru.harga_beras;
-    document.getElementById('stock').value = idbaru.stock;
+    document.getElementById('name').value = idbaru.name;
+    document.getElementById('email').value = idbaru.email;
   }
 
   function tahun_terdaftar() {

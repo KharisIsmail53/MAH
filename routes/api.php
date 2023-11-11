@@ -25,6 +25,14 @@ Route::get('/stock', [ZakatController::class, 'api_render'])->name('api_renderst
 Route::post('/update-stock-beras', [ZakatController::class, 'api_edit'])->name('api_updatestock');
 Route::post('/delete-stock-beras',[ZakatController::class, 'api_delete'])->name('api_deletestock');
 Route::get('/transaksi', [ZakatController::class, 'api_renderTransaksi'])->name('api_rendertransaksi');
+Route::get('/amil', [ZakatController::class, 'api_renderAmil'])->name('api_renderamil');
+Route::post('/update-amil', [ZakatController::class, 'api_editAmil'])->name('api_updateamil');
+Route::post('/delete-amil',[ZakatController::class, 'api_deleteAmil'])->name('api_deleteamil');
+Route::get('/rekap-zakat', [ZakatController::class, 'api_renderRekap'])->name('api_renderrekap');
+
+
+
+
 
 
 

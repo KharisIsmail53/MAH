@@ -46,10 +46,10 @@
                     </li>
                 </ul> -->
             </li>
-            <li class="nav-item dropdown {{ $type_menu === 'keanggotaan' ? 'active' : '' }}">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fa-solid fa-users"></i><span>Amil Zakat</span></a>
-                <ul class="dropdown-menu">
+            <li class="nav-item dropdown {{ $type_menu === 'amil' ? 'active' : '' }}">
+                <a href="{{url('amil-zakat')}}"
+                    class="nav-link"><i class="fa-solid fa-users"></i><span>Amil Zakat</span></a>
+                <!-- <ul class="dropdown-menu">
                     <li class="{{ Request::is('keanggotaan') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('dashboard-kkw') }}">Daftar Amil Zakat</a>
@@ -58,7 +58,35 @@
                         <a class="nav-link"
                             href="{{ url('tambah-anggota-kkw') }}">Tambah Amil Zakat</a>
                     </li>
-                </ul>
+                </ul> -->
+            </li>
+            <li class="nav-item dropdown {{ $type_menu === 'rekap' ? 'active' : '' }}">
+                <a href="{{url('rekap-zakat')}}"
+                    class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Rekap Zakat</span></a>
+                <!-- <ul class="dropdown-menu">
+                    <li class="{{ Request::is('keanggotaan') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ url('dashboard-kkw') }}">Daftar Amil Zakat</a>
+                    </li>
+                    <li class="{{ Request::is('tambah-keanggotaan') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ url('tambah-anggota-kkw') }}">Tambah Amil Zakat</a>
+                    </li>
+                </ul> -->
+            </li>
+            <li class="nav-item dropdown {{ $type_menu === 'mustahik-zakat' ? 'active' : '' }}">
+                <a href="{{url('mustahik-zakat')}}"
+                    class="nav-link"><i class="fa-solid fa-hand-holding-hand fa-flip-horizontal"></i><span>Mustahik Zakat</span></a>
+                <!-- <ul class="dropdown-menu">
+                    <li class="{{ Request::is('keanggotaan') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ url('dashboard-kkw') }}">Daftar Amil Zakat</a>
+                    </li>
+                    <li class="{{ Request::is('tambah-keanggotaan') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ url('tambah-anggota-kkw') }}">Tambah Amil Zakat</a>
+                    </li>
+                </ul> -->
             </li>
         </ul>
     </aside>

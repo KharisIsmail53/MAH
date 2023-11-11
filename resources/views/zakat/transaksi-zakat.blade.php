@@ -74,7 +74,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Id Akad</th>
+                                            <th scope="col" hidden>Id Akad</th>
                                             <th scope="col">Nama Muzzaki</th>
                                             <th scope="col">Harga Beras</th>
                                             <th scope="col">Jumlah Jiwa</th>
@@ -154,12 +154,12 @@
         </div>
     </section>
 
-    <form class="modal-part" id="modal-add-stock" action="{{route('add-transaksi-zakat')}}" method="post">
+    <form class="modal-part" id="modal-add-transaksi" action="{{route('add-transaksi-zakat')}}" method="post">
         @csrf
-        <p>Tambahkan Data <code>Stock Beras</code> Terbaru</p>
-        <div class="form-group">
+        <p>Tambahkan Data <code>Transaksi Beras</code> Terbaru</p>
+        <div class="form-group" hidden>
             <label>Id Akad</label> 
-            <input type="text" class="form-control" placeholder="Id Akad" name="id_akad" required>
+            <input type="text" class="form-control" placeholder="Id Akad" name="id_akad" required readonly value="{{ $newIdAkad }}">
         </div>
         <div class="form-group">
             <label>Nama Muzzaki</label>

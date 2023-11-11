@@ -5,7 +5,7 @@
 
 $("#modal-add").fireModal({
   title: 'Tambah Stock',
-  body: $("#modal-add-stock"),
+  body: $("#modal-add-transaksi"),
   center: true,
   footerClass: 'bg-whitesmoke',
   autoFocus: true,

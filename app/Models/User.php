@@ -30,6 +30,7 @@ class User extends Model implements Authenticatable
         'divisi',
         'role'
     ];
+    protected $keyType = 'string';
 
     /**
      * The attributes that should be hidden for serialization.
